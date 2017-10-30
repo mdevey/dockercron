@@ -1,0 +1,42 @@
+# Edit this file or mount a similar file as a volume.
+# ┌───────────── minute (0 - 59)
+# │ ┌───────────── hour (0 - 23)
+# │ │ ┌───────────── day of month (1 - 31)
+# │ │ │ ┌───────────── month (1 - 12)
+# │ │ │ │ ┌───────────── day of week (0 - 6) Sunday to Saturday
+# │ │ │ │ │
+# * * * * *  command
+
+
+## Example 000
+## Every minute print the date
+* * * * * date
+
+
+## Example 001
+## Spin up a new container, say it's hostname, and delete it
+#
+* * * * * docker run --rm alpine sh -c "sleep 2 && echo Hello from \$HOSTNAME"
+#
+## Note
+## A) 'sh -c' so that $HOSTNAME is interpreted from the
+##    new container (not the container running cron)
+## B) the new container is immediately destroyed '--rm'
+##    to avoid consuming all disk space.
+
+
+## Example 002
+## See whats running one second after every minute
+#
+* * * * * sleep 1 && docker ps --no-trunc
+#
+## Note
+##  You will see the temporary container from Example001 as it sleeps 2 seconds.
+
+
+## Example 003
+## Every 2 minutes.  Reach out to docker outside the container and tell it to reach
+## in ($HOSTNAME is this container) and run echo.
+#
+*/2 * * * * docker exec $HOSTNAME echo boo
+#

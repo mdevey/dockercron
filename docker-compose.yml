@@ -1,0 +1,11 @@
+version: "2"
+services:
+    cron:
+        #environment:
+        #    - "TZ=Australia/Sydney"
+        #    - "TZ=America/Chicago"
+        # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+        build: .
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./crontab:/crontab
